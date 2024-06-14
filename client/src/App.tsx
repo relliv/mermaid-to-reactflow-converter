@@ -34,6 +34,7 @@ function App() {
             source: mermaidEdge.start,
             target: mermaidEdge.end,
             // type: "customEdgeType",
+            style: { stroke: "#f6ab6c" },
             elementsSelectable: true,
             label: mermaidEdge.text,
             markerEnd: {
