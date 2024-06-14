@@ -23,12 +23,13 @@ import ReactFlow, {
   getRectOfNodes,
   getTransformForBounds,
 } from "reactflow";
+import RFCustomEdge from "./RFCustomEdge";
 
 const nodeTypes = {
     // customEntityNodeType: RFCustomNode,
   },
   edgeTypes = {
-    // customEdgeType: EdgeNode,
+    customEdgeType: RFCustomEdge,
   };
 
 export interface ReactflowViewProps {
@@ -38,19 +39,65 @@ export interface ReactflowViewProps {
 
 const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
   // react flow hooks
-  const reactFlowInstance = useReactFlow();
+  // const reactFlowInstance = useReactFlow();
 
   // shared states
-  const [selectedNode, setSelectedNode] = useState<Node | null>(null);
-  const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  useEffect(() => {
+    setNodes(props.nodes || []);
+    setEdges(props.edges || []);
+  }, [props.nodes, props.edges]);
+
+  const onCustomNodesChangeHandler = (changes: NodeChange[]): void => {
+    onNodesChange(changes);
+  };
 
   return (
     <>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        version="1.1"
+        fill="transparent"
+        stroke="black"
+        strokeWidth="4"
+        width="24"
+        height="24"
+        viewBox="0 0 100 100"
+        className="absolute"
+      >
+        {/* oneOnlyOne */}
+        <marker
+          id="oneOnlyOne"
+          viewBox="0 0 100 100"
+          markerHeight={20}
+          markerWidth={20}
+          refX={80}
+          refY={50}
+        >
+          <path d="M0 50 L100 50 M25 25 L 25 75 M75 25 L75 75" />
+        </marker>
+
+        {/* oneOrMany */}
+        <marker
+          id="oneOrMany"
+          viewBox="0 0 100 100"
+          markerHeight={20}
+          markerWidth={20}
+          refX={28}
+          refY={50}
+        >
+          <path d="M100 50 L0 50 M50 50 L 100 25 M50 50 L100 75 M25 25 L25 75" />
+        </marker>
+      </svg>
+
       {/* Reactflow Board */}
       <ReactFlow
         fitView
-        nodes={props.nodes}
-        edges={props.edges}
+        nodes={nodes}
+        edges={edges}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         snapToGrid={true}
@@ -59,9 +106,6 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
         attributionPosition="bottom-left"
         elementsSelectable={true}
         connectionMode={ConnectionMode.Loose}
-        nodesConnectable={selectedNode !== null}
-        multiSelectionKeyCode={null} // disable multi selection
-        contextMenu="true"
         onlyRenderVisibleElements={true}
         // context menu events
         // onPaneContextMenu={showBoardContextMenu}
@@ -75,7 +119,7 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
         // onEdgesChange={onCustomEdgesChangeHandler}
         // // node events
         // onNodeClick={onNodeClick}
-        // onNodesChange={onCustomNodesChangeHandler}
+        onNodesChange={onCustomNodesChangeHandler}
         // onNodeMouseEnter={onNodeMouseEnter}
         // onNodeMouseLeave={onNodeMouseLeave}
         // onSelectionChange={onNodeSelectionChange}

@@ -32,5 +32,15 @@
   .react-flow-editor {
     height: 100%;
     width: 50%;
+
+    .custom-edge-label {
+      position: absolute;
+      background-color: #1c9eef;
+      color: white;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 10px;
+    }
   }
 }

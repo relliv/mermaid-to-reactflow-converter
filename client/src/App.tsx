@@ -6,7 +6,7 @@ import MermaidWrapper, {
   MermaidEdgeDefinition,
   MermaidNodeDefinition,
 } from "./components/mermaid/MermaidView";
-import { Node, Edge } from "reactflow";
+import { Node, Edge, MarkerType } from "reactflow";
 import ReactflowView from "./components/reactflow/ReactflowView";
 import { v4 as uuidv4 } from "uuid";
 
@@ -26,34 +26,38 @@ function App() {
     mermaidEdges: MermaidEdgeDefinition[]
   ) {
     const reactflowEdges: Edge[] = mermaidEdges.map(
-        (mermaidEdge: MermaidEdgeDefinition, index: number) => ({
-          id: uuidv4(),
-          source: mermaidEdge.start,
-          target: mermaidEdge.end,
-          // sourceHandle:
-          //   sourceNode.data.fields[
-          //     faker.number.int({
-          //       min: 0,
-          //       max: sourceNode.data.fields.length - 1,
-          //     })
-          //   ].id,
-          // targetHandle:
-          //   targetNode.data.fields[
-          //     faker.number.int({
-          //       min: 0,
-          //       max: targetNode.data.fields.length - 1,
-          //     })
-          //   ].id,
-          animated: false,
-          data: {
-            label: mermaidEdge.text,
-            raw: mermaidEdge,
-          },
-        })
+        (mermaidEdge: MermaidEdgeDefinition, index: number) =>
+          ({
+            id: uuidv4(),
+            source: mermaidEdge.start,
+            target: mermaidEdge.end,
+            type: "customEdgeType",
+            markerStart: "oneOrMany",
+            markerEnd: "oneOnlyOne",
+            // sourceHandle:
+            //   sourceNode.data.fields[
+            //     faker.number.int({
+            //       min: 0,
+            //       max: sourceNode.data.fields.length - 1,
+            //     })
+            //   ].id,
+            // targetHandle:
+            //   targetNode.data.fields[
+            //     faker.number.int({
+            //       min: 0,
+            //       max: targetNode.data.fields.length - 1,
+            //     })
+            //   ].id,
+            animated: false,
+            data: {
+              label: mermaidEdge.text,
+              raw: mermaidEdge,
+            },
+          } as Edge)
       ),
       reactflowNodes: Node[] = mermaidNodes.map(
         (mermaidNode: MermaidNodeDefinition, index: number) => ({
-          id: uuidv4(),
+          id: mermaidNode.id,
           position: { x: index * 200, y: index * 200 },
           data: {
             label: mermaidNode.text,
