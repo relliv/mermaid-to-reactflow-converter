@@ -8,7 +8,7 @@ import {
   IMermaidNodeDefinition,
   MermaidChartDirection,
 } from "./shared/models/mermaid.model";
-import { Node, Edge } from "reactflow";
+import { Node, Edge, MarkerType } from "reactflow";
 import ReactflowView from "./components/reactflow/ReactflowView";
 import { v4 as uuidv4 } from "uuid";
 import { MermaidParserEvent } from "./shared/models/mermaid.model";
@@ -33,23 +33,12 @@ function App() {
             id: uuidv4(),
             source: mermaidEdge.start,
             target: mermaidEdge.end,
-            type: "customEdgeType",
-            markerStart: "oneOrMany",
-            markerEnd: "oneOnlyOne",
-            // sourceHandle:
-            //   sourceNode.data.fields[
-            //     faker.number.int({
-            //       min: 0,
-            //       max: sourceNode.data.fields.length - 1,
-            //     })
-            //   ].id,
-            // targetHandle:
-            //   targetNode.data.fields[
-            //     faker.number.int({
-            //       min: 0,
-            //       max: targetNode.data.fields.length - 1,
-            //     })
-            //   ].id,
+            // type: "customEdgeType",
+            elementsSelectable: true,
+            label: mermaidEdge.text,
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+            },
             animated: false,
             data: {
               label: mermaidEdge.text,
@@ -61,6 +50,7 @@ function App() {
         (mermaidNode: IMermaidNodeDefinition, index: number) => ({
           id: mermaidNode.id,
           position: { x: index * 200, y: index * 200 },
+          // type: "customNodeType",
           data: {
             label: mermaidNode.text,
             raw: mermaidNode,

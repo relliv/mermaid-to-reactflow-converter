@@ -30,7 +30,7 @@ import dagre from "dagre";
 import { MermaidChartDirection } from "../../shared/models/mermaid.model";
 
 const nodeTypes = {
-    // customEntityNodeType: RFCustomNode,
+    customNodeType: RFCustomEdge,
   },
   edgeTypes = {
     customEdgeType: RFCustomEdge,
