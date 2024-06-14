@@ -52,6 +52,7 @@ function App() {
           id: mermaidNode.id,
           position: { x: index * 200, y: index * 200 },
           type: "customNodeType",
+          dragHandle: ".custom-node",
           data: {
             label: mermaidNode.text,
             raw: mermaidNode,

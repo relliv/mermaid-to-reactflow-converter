@@ -1,16 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
-import { memo, useCallback } from "react";
+import { memo, useCallback, useRef } from "react";
 import { Handle, Position } from "reactflow";
 import Markdown from "react-markdown";
 
 export default memo(({ id, data, isConnectable }: any) => {
-  const onChange = useCallback((evt: any) => {
-    console.log(evt.target.innerText);
-  }, []);
+  const contentEditableLabelRef: any = useRef<HTMLDivElement>();
+
+  function onLabelDoubleClick(): void {
+    contentEditableLabelRef.current.contentEditable = "true";
+    contentEditableLabelRef.current.focus();
+  }
+
+  function onLabelBlur(): void {
+    contentEditableLabelRef.current.contentEditable = "false";
+  }
 
   return (
-    <div className="custom-node">
+    <div className="custom-node" onDoubleClick={() => onLabelDoubleClick()}>
       <Handle
         id={id}
         type="target"
@@ -18,15 +25,13 @@ export default memo(({ id, data, isConnectable }: any) => {
         isConnectable={isConnectable}
       />
 
-      <div>
-        <div
-          contentEditable="true"
-          id="text"
-          onBlur={onChange}
-          className="nodrag"
-        >
-          <Markdown>{data.label}</Markdown>
-        </div>
+      <div
+        ref={contentEditableLabelRef}
+        contentEditable="false"
+        onBlur={onLabelBlur}
+        className="custom-node-label"
+      >
+        <Markdown>{data.label}</Markdown>
       </div>
 
       <Handle

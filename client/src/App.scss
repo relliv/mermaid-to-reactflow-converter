@@ -55,14 +55,20 @@
       border: 1px solid #9370db;
       background-color: #ececff;
 
-      [contenteditable="true"] {
-        cursor: context-menu;
-        padding: 3px 10px;
-        border-radius: 50px;
-      }
-
       [contenteditable="true"]:focus {
         background-color: #ffffff97;
+      }
+
+      .custom-node-label {
+        background-color: #ffffff4c;
+        cursor: pointer;
+        padding: 3px 10px;
+        border-radius: 50px;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          background-color: #ffffffb6;
+        }
       }
     }
   }

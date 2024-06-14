@@ -96,7 +96,7 @@ const MermaidView: FC<MermaidViewProps> = ({
       {graphDefinition ? (
         <div
           className="mermaid"
-          id="mermaidChartt"
+          id="mermaidChartContainer"
           ref={mermaidChartElementRef}
         >
           {graphDefinition}
