@@ -73,7 +73,7 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
     nodes: Node[],
     edges: Edge[],
     direction: MermaidChartDirection
-  ): void => {
+  ): { nodes: Node[]; edges: Edge[] } => {
     const isHorizontal = direction === MermaidChartDirection.LR;
 
     dagreGraph.setGraph({ rankdir: direction });
