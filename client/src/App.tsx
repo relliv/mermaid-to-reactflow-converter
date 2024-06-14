@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import "./App.scss";
-import MermaidWrapper from "./components/Mermaid";
+import MermaidWrapper from "./components/mermaid/MermaidView";
 
 function App() {
   const [graphDefinition, setGraphDefinition] = useState(`flowchart TD

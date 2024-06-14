@@ -2,11 +2,11 @@
 import { FC, useEffect, useRef, useState } from "react";
 import mermaid from "mermaid";
 
-interface MermaidWrapperProps {
+interface MermaidViewProps {
   graphDefinition: string;
 }
 
-const MermaidWrapper: FC<MermaidWrapperProps> = ({ graphDefinition }) => {
+const MermaidView: FC<MermaidViewProps> = ({ graphDefinition }) => {
   const [currentGraphDefinition, setCrrentGraphDefinition] = useState<
     string | null
   >(null);
@@ -85,4 +85,4 @@ const MermaidWrapper: FC<MermaidWrapperProps> = ({ graphDefinition }) => {
   );
 };
 
-export default MermaidWrapper;
+export default MermaidView;
