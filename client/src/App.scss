@@ -11,6 +11,25 @@
     gap: 20px;
     border-right: 1px solid gray;
 
+    .monaco-editor-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      min-height: 300px;
+      // height: 30%;
+
+      select {
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid gray;
+      }
+
+      #editor {
+        height: 100%;
+      }
+    }
+
     .input-container {
       height: 30%;
       padding: 10px;

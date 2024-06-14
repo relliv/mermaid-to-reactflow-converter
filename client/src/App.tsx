@@ -12,6 +12,7 @@ import { Node, Edge, MarkerType } from "reactflow";
 import ReactflowView from "./components/reactflow/ReactflowView";
 import { v4 as uuidv4 } from "uuid";
 import { MermaidParserEvent } from "./shared/models/mermaid.model";
+import MonacoEditorView from "./components/monaco/MonacoView";
 
 function App() {
   const [graphDefinition, setGraphDefinition] = useState(`flowchart TD
@@ -80,14 +81,21 @@ function App() {
       <div className="editor-layout">
         {/* Mermaid Side */}
         <div className="mermaid-editor">
+          {/* Monaco Editor Container */}
+          <div className="monaco-editor-container">
+            <MonacoEditorView
+              code={graphDefinition}
+              onCodeChange={(event: string) => setGraphDefinition(event)}
+            />
+          </div>
+
           {/* Input Container */}
-          <div className="input-container">
+          {/* <div className="input-container">
             <textarea
               value={graphDefinition}
               onChange={(e) => setGraphDefinition(e.target.value)}
             ></textarea>
-          </div>
-
+          </div> */}
           {/* Preview Container */}
           <div className="preview-container">
             <MermaidWrapper
