@@ -57,19 +57,22 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
     setNodes(props.nodes || []);
     setEdges(props.edges || []);
 
-    console.log("ReactflowView.useEffect", props);
-
-    getLayoutedElements(props.nodes, props.edges, props.direction);
+    updateGraphLayout(props.nodes, props.edges, props.direction);
   }, [props.nodes, props.edges, props.direction]);
 
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-  const getLayoutedElements = (
+  /**
+   * Updates the dagre graph layout
+   *
+   * @source https://reactflow.dev/examples/layout/dagre
+   */
+  const updateGraphLayout = (
     nodes: Node[],
     edges: Edge[],
-    direction = "TB"
-  ) => {
+    direction: MermaidChartDirection
+  ): void => {
     const isHorizontal = direction === MermaidChartDirection.LR;
 
     dagreGraph.setGraph({ rankdir: direction });

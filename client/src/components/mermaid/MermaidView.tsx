@@ -59,6 +59,8 @@ const MermaidView: FC<MermaidViewProps> = ({
 
   /**
    * Parse the mermaid chart
+   *
+   * @source https://github.com/amguerrero/mermaid-parser/blob/d440749842b94f657cf071fbbd599205b32a913c/src/index.ts#L37-L62
    */
   async function parseMermaidChart(graphDefinitionText: string): Promise<void> {
     const diagram = await mermaid.mermaidAPI.getDiagramFromText(
