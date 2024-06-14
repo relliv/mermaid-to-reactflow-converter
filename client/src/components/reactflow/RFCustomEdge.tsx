@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FC, useRef } from "react";
 import {
   EdgeProps,
   getBezierPath,
@@ -28,6 +29,17 @@ const RFCustomEdge: FC<EdgeProps> = ({
     targetPosition,
   });
 
+  const contentEditableLabelRef: any = useRef<HTMLDivElement>();
+
+  function onLabelClick(): void {
+    contentEditableLabelRef.current.contentEditable = "true";
+    contentEditableLabelRef.current.focus();
+  }
+
+  function onLabelBlur(): void {
+    contentEditableLabelRef.current.contentEditable = "false";
+  }
+
   return (
     <>
       {/* Base Edge */}
@@ -42,11 +54,13 @@ const RFCustomEdge: FC<EdgeProps> = ({
 
       <EdgeLabelRenderer>
         <div
-          onDoubleClick={() => alert(22)}
+          contentEditable="true"
+          onClick={() => onLabelClick()}
           style={{
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             display: data.label.length > 0 ? "block" : "none",
           }}
+          onBlur={() => onLabelBlur()}
           className="custom-edge-label nodrag nopan"
         >
           {data.label}
