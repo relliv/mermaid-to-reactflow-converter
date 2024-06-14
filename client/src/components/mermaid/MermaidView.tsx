@@ -13,9 +13,23 @@ export interface MermaidEdgeDefinition {
   length: number;
 }
 
+export interface MermaidNodeDefinition {
+  id: string;
+  labelType: string;
+  domId: string;
+  styles: any[];
+  classes: any[];
+  text: string;
+  type: string;
+  props: any;
+}
+
 interface MermaidViewProps {
   graphDefinition: string;
-  onMermaidDefinitionChange: (mermaidEdges: MermaidEdgeDefinition[]) => void;
+  onMermaidDefinitionChange: (
+    mermaidNodes: MermaidNodeDefinition[],
+    mermaidEdges: MermaidEdgeDefinition[]
+  ) => void;
 }
 
 const MermaidView: FC<MermaidViewProps> = ({
@@ -71,23 +85,23 @@ const MermaidView: FC<MermaidViewProps> = ({
     );
     const parser = (diagram.getParser() as ParserDefinition as any).yy;
 
-    const mermaidEdges = (parser.getEdges() as MermaidEdgeDefinition[]) || [];
+    const mermaidEdges = (parser.getEdges() as MermaidEdgeDefinition[]) || [],
+      mermaidNodes = (parser.getVertices() as MermaidNodeDefinition[]) || [];
 
-    onMermaidDefinitionChange(mermaidEdges);
+    onMermaidDefinitionChange(Object.values(mermaidNodes), mermaidEdges);
 
     // TODO: remogve unused variables
-    // onMermaidDefinitionChange;
-    // const outputParser = {
-    //   title: parser.getDiagramTitle(),
-    //   accTitle: parser.getAccTitle(),
-    //   edges: parser.getEdges() as MermaidEdgeDefinition[],
-    //   vertices: parser.getVertices(),
-    //   tooltip: parser.getTooltip(),
-    //   direction: parser.getDirection(),
-    //   classes: parser.getClasses(),
-    //   subGraphs: parser.getSubGraphs(),
-    // };
-    // console.log("------> outputParser", outputParser);
+    const outputParser = {
+      title: parser.getDiagramTitle(),
+      accTitle: parser.getAccTitle(),
+      edges: parser.getEdges() as MermaidEdgeDefinition[],
+      vertices: parser.getVertices(),
+      tooltip: parser.getTooltip(),
+      direction: parser.getDirection(),
+      classes: parser.getClasses(),
+      subGraphs: parser.getSubGraphs(),
+    };
+    console.log("------> outputParser", outputParser);
   }
 
   return (

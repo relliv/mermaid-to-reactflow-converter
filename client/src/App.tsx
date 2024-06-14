@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import "./App.scss";
 import MermaidWrapper, {
   MermaidEdgeDefinition,
+  MermaidNodeDefinition,
 } from "./components/mermaid/MermaidView";
+import { Node, Edge } from "reactflow";
+import ReactflowView from "./components/reactflow/ReactflowView";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [graphDefinition, setGraphDefinition] = useState(`flowchart TD
@@ -13,10 +18,58 @@ function App() {
     D --> B
     B -- No ----> E[End]`);
 
+  const [reactflowNodes, setReactflowNodes] = useState<Node[]>([]);
+  const [reactflowEdges, setReactflowEdges] = useState<Edge[]>([]);
+
   function handleMermaidDefinitionChange(
+    mermaidNodes: MermaidNodeDefinition[],
     mermaidEdges: MermaidEdgeDefinition[]
   ) {
-    console.log("*0*0*0*0*0*", { mermaidEdges });
+    const reactflowEdges: Edge[] = mermaidEdges.map(
+        (mermaidEdge: MermaidEdgeDefinition, index: number) => ({
+          id: uuidv4(),
+          source: mermaidEdge.start,
+          target: mermaidEdge.end,
+          // sourceHandle:
+          //   sourceNode.data.fields[
+          //     faker.number.int({
+          //       min: 0,
+          //       max: sourceNode.data.fields.length - 1,
+          //     })
+          //   ].id,
+          // targetHandle:
+          //   targetNode.data.fields[
+          //     faker.number.int({
+          //       min: 0,
+          //       max: targetNode.data.fields.length - 1,
+          //     })
+          //   ].id,
+          animated: false,
+          data: {
+            label: mermaidEdge.text,
+            raw: mermaidEdge,
+          },
+        })
+      ),
+      reactflowNodes: Node[] = mermaidNodes.map(
+        (mermaidNode: MermaidNodeDefinition, index: number) => ({
+          id: uuidv4(),
+          position: { x: index * 200, y: index * 200 },
+          data: {
+            label: mermaidNode.text,
+            raw: mermaidNode,
+          },
+        })
+      );
+
+    console.log(
+      reactflowNodes,
+      reactflowNodes.map((item: any) => item.data.raw.text),
+      mermaidEdges
+    );
+
+    setReactflowNodes(reactflowNodes);
+    setReactflowEdges(reactflowEdges);
   }
 
   return (
@@ -30,12 +83,6 @@ function App() {
             <textarea
               value={graphDefinition}
               onChange={(e) => setGraphDefinition(e.target.value)}
-              style={{
-                width: "700px",
-                height: "200px",
-                padding: "10px",
-                fontSize: "16px",
-              }}
             ></textarea>
           </div>
 
@@ -43,15 +90,21 @@ function App() {
           <div className="preview-container">
             <MermaidWrapper
               graphDefinition={graphDefinition}
-              onMermaidDefinitionChange={(event: MermaidEdgeDefinition[]) =>
-                handleMermaidDefinitionChange(event)
-              }
+              onMermaidDefinitionChange={(
+                mermaidNodes: MermaidNodeDefinition[],
+                mermaidEdges: MermaidEdgeDefinition[]
+              ) => handleMermaidDefinitionChange(mermaidNodes, mermaidEdges)}
             />
           </div>
         </div>
 
         {/* Reactflow Side */}
-        <div className="react-flow-editor"></div>
+        <div className="react-flow-editor">
+          <ReactflowView
+            nodes={reactflowNodes}
+            edges={reactflowEdges}
+          ></ReactflowView>
+        </div>
       </div>
     </>
   );
