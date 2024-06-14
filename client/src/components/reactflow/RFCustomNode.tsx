@@ -8,7 +8,7 @@ const handleStyle = { left: 10 };
 
 export default memo(({ id, data, isConnectable }: any) => {
   const onChange = useCallback((evt: any) => {
-    console.log(evt.target.value);
+    console.log(evt.target.innerText);
   }, []);
 
   return (
@@ -23,7 +23,7 @@ export default memo(({ id, data, isConnectable }: any) => {
         <div
           contentEditable="true"
           id="text"
-          onChange={onChange}
+          onBlur={onChange}
           className="nodrag"
         >
           {data.label}
