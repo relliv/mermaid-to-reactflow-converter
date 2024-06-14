@@ -1,27 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import ReactFlow, {
   useNodesState,
   useEdgesState,
-  addEdge,
   MiniMap,
-  Controls,
   Background,
   Edge,
   Node,
   BackgroundVariant,
   ConnectionMode,
-  OnSelectionChangeParams,
   ReactFlowProvider,
   NodeChange,
-  EdgeChange,
   useReactFlow,
-  useViewport,
-  useKeyPress,
-  Panel,
-  ControlButton,
-  getRectOfNodes,
-  getTransformForBounds,
   Position,
 } from "reactflow";
 import RFCustomEdge from "./RFCustomEdge";
@@ -37,6 +27,7 @@ const nodeTypes = {
     customEdgeType: RFCustomEdge,
   };
 
+// TODO: replace with dnynamic calculation
 const nodeWidth = 250;
 const nodeHeight = 200;
 
@@ -52,7 +43,7 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
 
   // shared states
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [edges, setEdges] = useEdgesState([]);
 
   useEffect(() => {
     setNodes(props.nodes || []);
@@ -166,26 +157,7 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
         elementsSelectable={true}
         connectionMode={ConnectionMode.Loose}
         onlyRenderVisibleElements={true}
-        // context menu events
-        // onPaneContextMenu={showBoardContextMenu}
-        // onNodeContextMenu={showNodeContextMenu}
-        // onEdgeContextMenu={showEdgeContextMenu}
-        // // edge events
-        // onConnect={onEdgeConnect}
-        // onEdgeClick={onEdgeClick}
-        // onEdgeMouseEnter={onEdgeMouseEnter}
-        // onEdgeMouseLeave={onEdgeMouseLeave}
-        // onEdgesChange={onCustomEdgesChangeHandler}
-        // // node events
-        // onNodeClick={onNodeClick}
         onNodesChange={onCustomNodesChangeHandler}
-        // onNodeMouseEnter={onNodeMouseEnter}
-        // onNodeMouseLeave={onNodeMouseLeave}
-        // onSelectionChange={onNodeSelectionChange}
-        // onNodeDragStop={onNodeDragStop}
-        // // board events
-        // onMoveStart={onBoardMoveStart}
-        // // onInit={onBoardInit}
       >
         <MiniMap zoomable pannable className="minimap" />
 
