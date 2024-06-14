@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
-import React from "react";
 import { memo, useCallback } from "react";
 import { Handle, Position } from "reactflow";
-
-const handleStyle = { left: 10 };
+import Markdown from "react-markdown";
 
 export default memo(({ id, data, isConnectable }: any) => {
   const onChange = useCallback((evt: any) => {
@@ -19,6 +17,7 @@ export default memo(({ id, data, isConnectable }: any) => {
         position={Position.Top}
         isConnectable={isConnectable}
       />
+
       <div>
         <div
           contentEditable="true"
@@ -26,15 +25,17 @@ export default memo(({ id, data, isConnectable }: any) => {
           onBlur={onChange}
           className="nodrag"
         >
-          {data.label}
+          <Markdown>{data.label}</Markdown>
         </div>
       </div>
+
       <Handle
         type="source"
         position={Position.Bottom}
         id="a"
         isConnectable={isConnectable}
       />
+
       <Handle
         id={id}
         type="source"
