@@ -33,13 +33,15 @@ function App() {
             id: uuidv4(),
             source: mermaidEdge.start,
             target: mermaidEdge.end,
-            // type: "customEdgeType",
+            type: "customEdgeType",
+            markerStart: "oneOrMany",
+            markerEnd: "arrow-end",
             style: { stroke: "#f6ab6c" },
             elementsSelectable: true,
             label: mermaidEdge.text,
-            markerEnd: {
-              type: MarkerType.ArrowClosed,
-            },
+            // markerEnd: {
+            //   type: MarkerType.ArrowClosed,
+            // },
             animated: false,
             data: {
               label: mermaidEdge.text,

@@ -8,6 +8,7 @@ import {
 
 const RFCustomEdge: FC<EdgeProps> = ({
   id,
+  style,
   sourceX,
   sourceY,
   targetX,
@@ -15,6 +16,8 @@ const RFCustomEdge: FC<EdgeProps> = ({
   sourcePosition,
   targetPosition,
   data,
+  markerEnd,
+  markerStart,
 }) => {
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
@@ -27,7 +30,15 @@ const RFCustomEdge: FC<EdgeProps> = ({
 
   return (
     <>
-      <BaseEdge id={id} path={edgePath} />
+      {/* Base Edge */}
+      <BaseEdge
+        id={id}
+        path={edgePath}
+        interactionWidth={50}
+        style={style}
+        markerEnd={!data.erdReadyToConnect ? markerEnd : ""}
+        markerStart={!data.erdReadyToConnect ? markerStart : ""}
+      />
 
       <EdgeLabelRenderer>
         <div
