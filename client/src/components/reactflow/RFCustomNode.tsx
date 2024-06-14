@@ -28,10 +28,11 @@ export default memo(({ id, data, isConnectable }: any) => {
       />
 
       <Tooltip
-        delayShow={400}
+        delayShow={1000}
+        variant="info"
         id="double-click-to-edit"
         place={
-          data.layoutDirection === MermaidChartDirection.TD ? "bottom" : "right"
+          data.layoutDirection === MermaidChartDirection.LR ? "bottom" : "right"
         }
         content="Double Click to Edit"
       />

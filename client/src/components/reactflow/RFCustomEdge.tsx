@@ -31,6 +31,7 @@ const RFCustomEdge: FC<EdgeProps> = ({
 
       <EdgeLabelRenderer>
         <div
+          onDoubleClick={() => alert(22)}
           style={{
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
             display: data.label.length > 0 ? "block" : "none",

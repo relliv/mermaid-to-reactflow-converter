@@ -37,8 +37,8 @@ const nodeTypes = {
     customEdgeType: RFCustomEdge,
   };
 
-const nodeWidth = 200;
-const nodeHeight = 100;
+const nodeWidth = 250;
+const nodeHeight = 150;
 
 export interface ReactflowViewProps {
   nodes: Node[];
