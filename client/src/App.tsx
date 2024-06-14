@@ -6,6 +6,7 @@ import MermaidWrapper from "./components/mermaid/MermaidView";
 import {
   IMermaidEdgeDefinition,
   IMermaidNodeDefinition,
+  MermaidChartDirection,
 } from "./shared/models/mermaid.model";
 import { Node, Edge } from "reactflow";
 import ReactflowView from "./components/reactflow/ReactflowView";
@@ -22,6 +23,8 @@ function App() {
 
   const [reactflowNodes, setReactflowNodes] = useState<Node[]>([]);
   const [reactflowEdges, setReactflowEdges] = useState<Edge[]>([]);
+  const [mermaidChartDirection, setMermaidChartDirection] =
+    useState<MermaidChartDirection>(MermaidChartDirection.TD);
 
   function handleMermaidDefinitionChange(event: MermaidParserEvent) {
     const reactflowEdges: Edge[] = event.edges.map(
@@ -73,6 +76,7 @@ function App() {
 
     setReactflowNodes(reactflowNodes);
     setReactflowEdges(reactflowEdges);
+    setMermaidChartDirection(event.direction);
   }
 
   return (
@@ -105,6 +109,7 @@ function App() {
           <ReactflowView
             nodes={reactflowNodes}
             edges={reactflowEdges}
+            direction={mermaidChartDirection}
           ></ReactflowView>
         </div>
       </div>

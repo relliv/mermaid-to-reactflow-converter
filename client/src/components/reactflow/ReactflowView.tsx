@@ -22,8 +22,12 @@ import ReactFlow, {
   ControlButton,
   getRectOfNodes,
   getTransformForBounds,
+  Position,
 } from "reactflow";
 import RFCustomEdge from "./RFCustomEdge";
+import dagre from "dagre";
+
+import { MermaidChartDirection } from "../../shared/models/mermaid.model";
 
 const nodeTypes = {
     // customEntityNodeType: RFCustomNode,
@@ -32,9 +36,13 @@ const nodeTypes = {
     customEdgeType: RFCustomEdge,
   };
 
+const nodeWidth = 200;
+const nodeHeight = 100;
+
 export interface ReactflowViewProps {
   nodes: Node[];
   edges: Edge[];
+  direction: MermaidChartDirection;
 }
 
 const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
@@ -48,7 +56,51 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
   useEffect(() => {
     setNodes(props.nodes || []);
     setEdges(props.edges || []);
-  }, [props.nodes, props.edges]);
+
+    console.log("ReactflowView.useEffect", props);
+
+    getLayoutedElements(props.nodes, props.edges, props.direction);
+  }, [props.nodes, props.edges, props.direction]);
+
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+  const getLayoutedElements = (
+    nodes: Node[],
+    edges: Edge[],
+    direction = "TB"
+  ) => {
+    const isHorizontal = direction === MermaidChartDirection.LR;
+
+    dagreGraph.setGraph({ rankdir: direction });
+
+    nodes.forEach((node: Node) => {
+      dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    });
+
+    edges.forEach((edge: Edge) => {
+      dagreGraph.setEdge(edge.source, edge.target);
+    });
+
+    dagre.layout(dagreGraph);
+
+    nodes.forEach((node: Node) => {
+      const nodeWithPosition = dagreGraph.node(node.id);
+      node.targetPosition = isHorizontal ? Position.Left : Position.Top;
+      node.sourcePosition = isHorizontal ? Position.Right : Position.Bottom;
+
+      // We are shifting the dagre node position (anchor=center center) to the top left
+      // so it matches the React Flow node anchor point (top left).
+      node.position = {
+        x: nodeWithPosition.x - nodeWidth / 2,
+        y: nodeWithPosition.y - nodeHeight / 2,
+      };
+
+      return node;
+    });
+
+    return { nodes, edges };
+  };
 
   const onCustomNodesChangeHandler = (changes: NodeChange[]): void => {
     onNodesChange(changes);
