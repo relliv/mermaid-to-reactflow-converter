@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import "./App.scss";
-import MermaidWrapper from "./components/mermaid/MermaidView";
+import MermaidWrapper, {
+  MermaidEdgeDefinition,
+} from "./components/mermaid/MermaidView";
 
 function App() {
   const [graphDefinition, setGraphDefinition] = useState(`flowchart TD
@@ -10,6 +12,12 @@ function App() {
     C --> D[Rethink]
     D --> B
     B -- No ----> E[End]`);
+
+  function handleMermaidDefinitionChange(
+    mermaidEdges: MermaidEdgeDefinition[]
+  ) {
+    console.log("*0*0*0*0*0*", { mermaidEdges });
+  }
 
   return (
     <>
@@ -33,9 +41,17 @@ function App() {
 
           {/* Preview Container */}
           <div className="preview-container">
-            <MermaidWrapper graphDefinition={graphDefinition} />
+            <MermaidWrapper
+              graphDefinition={graphDefinition}
+              onMermaidDefinitionChange={(event: MermaidEdgeDefinition[]) =>
+                handleMermaidDefinitionChange(event)
+              }
+            />
           </div>
         </div>
+
+        {/* Reactflow Side */}
+        <div className="react-flow-editor"></div>
       </div>
     </>
   );

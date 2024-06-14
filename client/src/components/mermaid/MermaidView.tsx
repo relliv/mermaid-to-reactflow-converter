@@ -1,12 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { FC, useEffect, useRef, useState } from "react";
 import mermaid from "mermaid";
+import { ParserDefinition } from "mermaid/dist/diagram-api/types.js";
+
+export interface MermaidEdgeDefinition {
+  start: string;
+  end: string;
+  type: string;
+  text: string;
+  labelType: string;
+  stroke: string;
+  length: number;
+}
 
 interface MermaidViewProps {
   graphDefinition: string;
+  onMermaidDefinitionChange: (mermaidEdges: MermaidEdgeDefinition[]) => void;
 }
 
-const MermaidView: FC<MermaidViewProps> = ({ graphDefinition }) => {
+const MermaidView: FC<MermaidViewProps> = ({
+  graphDefinition,
+  onMermaidDefinitionChange,
+}) => {
   const [currentGraphDefinition, setCrrentGraphDefinition] = useState<
     string | null
   >(null);
@@ -54,20 +69,25 @@ const MermaidView: FC<MermaidViewProps> = ({ graphDefinition }) => {
     const diagram = await mermaid.mermaidAPI.getDiagramFromText(
       graphDefinitionText
     );
-    const parser = (diagram.getParser() as any).yy;
+    const parser = (diagram.getParser() as ParserDefinition as any).yy;
 
-    const outputParser = {
-      title: parser.getDiagramTitle(),
-      accTitle: parser.getAccTitle(),
-      edges: parser.getEdges(),
-      vertices: parser.getVertices(),
-      tooltip: parser.getTooltip(),
-      direction: parser.getDirection(),
-      classes: parser.getClasses(),
-      subGraphs: parser.getSubGraphs(),
-    };
+    const mermaidEdges = (parser.getEdges() as MermaidEdgeDefinition[]) || [];
 
-    console.log("------> outputParser", outputParser);
+    onMermaidDefinitionChange(mermaidEdges);
+
+    // TODO: remogve unused variables
+    // onMermaidDefinitionChange;
+    // const outputParser = {
+    //   title: parser.getDiagramTitle(),
+    //   accTitle: parser.getAccTitle(),
+    //   edges: parser.getEdges() as MermaidEdgeDefinition[],
+    //   vertices: parser.getVertices(),
+    //   tooltip: parser.getTooltip(),
+    //   direction: parser.getDirection(),
+    //   classes: parser.getClasses(),
+    //   subGraphs: parser.getSubGraphs(),
+    // };
+    // console.log("------> outputParser", outputParser);
   }
 
   return (
