@@ -44,14 +44,16 @@
     }
 
     .custom-node {
-      padding: 15px;
+      padding: 10px 35px;
+      min-width: 150px;
+      text-align: center;
       border-radius: 7px;
-      border: 1px solid gray;
-      background-color: #e3d914;
+      border: 1px solid #9370db;
+      background-color: #ececff;
 
       [contenteditable="true"] {
-        cursor: text;
-        padding: 5px 15px;
+        cursor: context-menu;
+        padding: 3px 10px;
         border-radius: 50px;
       }
 
