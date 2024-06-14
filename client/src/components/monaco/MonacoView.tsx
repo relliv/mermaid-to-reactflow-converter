@@ -12,6 +12,11 @@ export interface IMonacoEditorViewProps {
   onCodeChange: (code: string) => void;
 }
 
+/**
+ * Custom monaco editor view
+ *
+ * @source https://github.com/relliv/monaco-editor-textmate-theme-loading-example
+ */
 const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
   code,
   onCodeChange,
@@ -32,6 +37,10 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
     {
       displayName: "One Light",
       name: "one-light",
+    },
+    {
+      displayName: "2077 theme (endormi)",
+      name: "endormi-2077",
     },
   ]);
 
