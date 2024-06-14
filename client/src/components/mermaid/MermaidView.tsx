@@ -2,34 +2,15 @@
 import { FC, useEffect, useRef, useState } from "react";
 import mermaid from "mermaid";
 import { ParserDefinition } from "mermaid/dist/diagram-api/types.js";
-
-export interface MermaidEdgeDefinition {
-  start: string;
-  end: string;
-  type: string;
-  text: string;
-  labelType: string;
-  stroke: string;
-  length: number;
-}
-
-export interface MermaidNodeDefinition {
-  id: string;
-  labelType: string;
-  domId: string;
-  styles: any[];
-  classes: any[];
-  text: string;
-  type: string;
-  props: any;
-}
+import {
+  IMermaidNodeDefinition,
+  IMermaidEdgeDefinition,
+  MermaidParserEvent,
+} from "../../shared/models/mermaid.model";
 
 interface MermaidViewProps {
   graphDefinition: string;
-  onMermaidDefinitionChange: (
-    mermaidNodes: MermaidNodeDefinition[],
-    mermaidEdges: MermaidEdgeDefinition[]
-  ) => void;
+  onMermaidDefinitionChange: (event: MermaidParserEvent) => void;
 }
 
 const MermaidView: FC<MermaidViewProps> = ({
@@ -85,16 +66,20 @@ const MermaidView: FC<MermaidViewProps> = ({
     );
     const parser = (diagram.getParser() as ParserDefinition as any).yy;
 
-    const mermaidEdges = (parser.getEdges() as MermaidEdgeDefinition[]) || [],
-      mermaidNodes = (parser.getVertices() as MermaidNodeDefinition[]) || [];
+    const mermaidEdges = (parser.getEdges() as IMermaidEdgeDefinition[]) || [],
+      mermaidNodes = (parser.getVertices() as IMermaidNodeDefinition[]) || [];
 
-    onMermaidDefinitionChange(Object.values(mermaidNodes), mermaidEdges);
+    onMermaidDefinitionChange({
+      nodes: Object.values(mermaidNodes),
+      edges: mermaidEdges,
+      direction: parser.getDirection(),
+    });
 
     // TODO: remogve unused variables
     const outputParser = {
       title: parser.getDiagramTitle(),
       accTitle: parser.getAccTitle(),
-      edges: parser.getEdges() as MermaidEdgeDefinition[],
+      edges: parser.getEdges(),
       vertices: parser.getVertices(),
       tooltip: parser.getTooltip(),
       direction: parser.getDirection(),

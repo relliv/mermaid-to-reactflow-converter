@@ -2,13 +2,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import "./App.scss";
-import MermaidWrapper, {
-  MermaidEdgeDefinition,
-  MermaidNodeDefinition,
-} from "./components/mermaid/MermaidView";
-import { Node, Edge, MarkerType } from "reactflow";
+import MermaidWrapper from "./components/mermaid/MermaidView";
+import {
+  IMermaidEdgeDefinition,
+  IMermaidNodeDefinition,
+} from "./shared/models/mermaid.model";
+import { Node, Edge } from "reactflow";
 import ReactflowView from "./components/reactflow/ReactflowView";
 import { v4 as uuidv4 } from "uuid";
+import { MermaidParserEvent } from "./shared/models/mermaid.model";
 
 function App() {
   const [graphDefinition, setGraphDefinition] = useState(`flowchart TD
@@ -21,12 +23,9 @@ function App() {
   const [reactflowNodes, setReactflowNodes] = useState<Node[]>([]);
   const [reactflowEdges, setReactflowEdges] = useState<Edge[]>([]);
 
-  function handleMermaidDefinitionChange(
-    mermaidNodes: MermaidNodeDefinition[],
-    mermaidEdges: MermaidEdgeDefinition[]
-  ) {
-    const reactflowEdges: Edge[] = mermaidEdges.map(
-        (mermaidEdge: MermaidEdgeDefinition, index: number) =>
+  function handleMermaidDefinitionChange(event: MermaidParserEvent) {
+    const reactflowEdges: Edge[] = event.edges.map(
+        (mermaidEdge: IMermaidEdgeDefinition, index: number) =>
           ({
             id: uuidv4(),
             source: mermaidEdge.start,
@@ -55,8 +54,8 @@ function App() {
             },
           } as Edge)
       ),
-      reactflowNodes: Node[] = mermaidNodes.map(
-        (mermaidNode: MermaidNodeDefinition, index: number) => ({
+      reactflowNodes: Node[] = event.nodes.map(
+        (mermaidNode: IMermaidNodeDefinition, index: number) => ({
           id: mermaidNode.id,
           position: { x: index * 200, y: index * 200 },
           data: {
@@ -69,7 +68,7 @@ function App() {
     console.log(
       reactflowNodes,
       reactflowNodes.map((item: any) => item.data.raw.text),
-      mermaidEdges
+      event
     );
 
     setReactflowNodes(reactflowNodes);
@@ -94,10 +93,9 @@ function App() {
           <div className="preview-container">
             <MermaidWrapper
               graphDefinition={graphDefinition}
-              onMermaidDefinitionChange={(
-                mermaidNodes: MermaidNodeDefinition[],
-                mermaidEdges: MermaidEdgeDefinition[]
-              ) => handleMermaidDefinitionChange(mermaidNodes, mermaidEdges)}
+              onMermaidDefinitionChange={(event: MermaidParserEvent) =>
+                handleMermaidDefinitionChange(event)
+              }
             />
           </div>
         </div>
