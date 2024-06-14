@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
-import { memo, useCallback, useRef } from "react";
+import { memo, useRef } from "react";
 import { Handle, Position } from "reactflow";
+import { Tooltip } from "react-tooltip";
 import Markdown from "react-markdown";
+import { MermaidChartDirection } from "../../shared/models/mermaid.model";
 
 export default memo(({ id, data, isConnectable }: any) => {
   const contentEditableLabelRef: any = useRef<HTMLDivElement>();
@@ -25,7 +27,16 @@ export default memo(({ id, data, isConnectable }: any) => {
         isConnectable={isConnectable}
       />
 
+      <Tooltip
+        delayShow={400}
+        id="double-click-to-edit"
+        place={
+          data.layoutDirection === MermaidChartDirection.TD ? "bottom" : "right"
+        }
+        content="Double Click to Edit"
+      />
       <div
+        data-tooltip-id="double-click-to-edit"
         ref={contentEditableLabelRef}
         contentEditable="false"
         onBlur={onLabelBlur}

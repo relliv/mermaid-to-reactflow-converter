@@ -56,6 +56,7 @@ function App() {
           data: {
             label: mermaidNode.text,
             raw: mermaidNode,
+            layoutDirection: event.direction,
           },
         })
       );
