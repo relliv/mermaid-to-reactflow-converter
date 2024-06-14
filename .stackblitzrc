@@ -1,0 +1,8 @@
+{
+  "installDependencies": true,
+  "startCommand": "npm run serve",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "defaultDirectory": "./client"
+}
