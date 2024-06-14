@@ -77,7 +77,6 @@ const MermaidWrapper: FC<MermaidWrapperProps> = ({ graphDefinition }) => {
           className="mermaid"
           id="mermaidChartt"
           ref={mermaidChartElementRef}
-          //   dangerouslySetInnerHTML={{ __html: graphDefinition }}
         >
           {graphDefinition}
         </div>
