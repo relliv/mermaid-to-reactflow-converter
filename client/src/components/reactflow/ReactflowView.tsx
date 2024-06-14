@@ -47,7 +47,7 @@ export interface ReactflowViewProps {
 
 const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
   // react flow hooks
-  // const reactFlowInstance = useReactFlow();
+  const reactFlowInstance = useReactFlow();
 
   // shared states
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
@@ -98,6 +98,14 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
 
       return node;
     });
+
+    setTimeout(() => {
+      reactFlowInstance.fitView({
+        duration: 1000,
+        padding: 0.5,
+        nodes: nodes,
+      });
+    }, 500);
 
     return { nodes, edges };
   };
