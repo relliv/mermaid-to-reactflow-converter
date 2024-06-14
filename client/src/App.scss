@@ -1,0 +1,22 @@
+.editor-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+
+  .mermaid-editor {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+
+    .input-container {
+      height: 50%;
+      padding: 10px;
+    }
+
+    .preview-container {
+      height: 50%;
+      padding: 10px;
+    }
+  }
+}

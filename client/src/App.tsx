@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
-import "./App.css";
+import "./App.scss";
 import MermaidWrapper from "./components/Mermaid";
 
 function App() {
@@ -13,17 +13,30 @@ function App() {
 
   return (
     <>
-      <textarea
-        value={graphDefinition}
-        onChange={(e) => setGraphDefinition(e.target.value)}
-        style={{
-          width: "700px",
-          height: "200px",
-          padding: "10px",
-          fontSize: "16px",
-        }}
-      ></textarea>
-      <MermaidWrapper graphDefinition={graphDefinition} />
+      {/* General Editor Layout */}
+      <div className="editor-layout">
+        {/* Mermaid Side */}
+        <div className="mermaid-editor">
+          {/* Input Container */}
+          <div className="input-container">
+            <textarea
+              value={graphDefinition}
+              onChange={(e) => setGraphDefinition(e.target.value)}
+              style={{
+                width: "700px",
+                height: "200px",
+                padding: "10px",
+                fontSize: "16px",
+              }}
+            ></textarea>
+          </div>
+
+          {/* Preview Container */}
+          <div className="preview-container">
+            <MermaidWrapper graphDefinition={graphDefinition} />
+          </div>
+        </div>
+      </div>
     </>
   );
 }
