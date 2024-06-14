@@ -1,27 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect } from "react";
+import { useEffect } from "react";
 import ReactFlow, {
   useNodesState,
   useEdgesState,
-  addEdge,
   MiniMap,
-  Controls,
   Background,
   Edge,
   Node,
   BackgroundVariant,
   ConnectionMode,
-  OnSelectionChangeParams,
   ReactFlowProvider,
   NodeChange,
-  EdgeChange,
   useReactFlow,
-  useViewport,
-  useKeyPress,
-  Panel,
-  ControlButton,
-  getRectOfNodes,
-  getTransformForBounds,
   Position,
 } from "reactflow";
 import RFCustomEdge from "./RFCustomEdge";
@@ -37,8 +27,9 @@ const nodeTypes = {
     customEdgeType: RFCustomEdge,
   };
 
-const nodeWidth = 200;
-const nodeHeight = 100;
+// TODO: replace with dnynamic calculation
+const nodeWidth = 250;
+const nodeHeight = 200;
 
 export interface ReactflowViewProps {
   nodes: Node[];
@@ -52,7 +43,7 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
 
   // shared states
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [edges, setEdges] = useEdgesState([]);
 
   useEffect(() => {
     setNodes(props.nodes || []);
@@ -73,7 +64,7 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
     nodes: Node[],
     edges: Edge[],
     direction: MermaidChartDirection
-  ): void => {
+  ): { nodes: Node[]; edges: Edge[] } => {
     const isHorizontal = direction === MermaidChartDirection.LR;
 
     dagreGraph.setGraph({ rankdir: direction });
@@ -132,28 +123,23 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
         viewBox="0 0 100 100"
         className="absolute"
       >
-        {/* oneOnlyOne */}
+        {/* arrow-end */}
         <marker
-          id="oneOnlyOne"
+          id="arrow-end"
           viewBox="0 0 100 100"
           markerHeight={20}
           markerWidth={20}
-          refX={80}
+          refX={50}
           refY={50}
         >
-          <path d="M0 50 L100 50 M25 25 L 25 75 M75 25 L75 75" />
-        </marker>
-
-        {/* oneOrMany */}
-        <marker
-          id="oneOrMany"
-          viewBox="0 0 100 100"
-          markerHeight={20}
-          markerWidth={20}
-          refX={28}
-          refY={50}
-        >
-          <path d="M100 50 L0 50 M50 50 L 100 25 M50 50 L100 75 M25 25 L25 75" />
+          {/* source: https://www.svgrepo.com/svg/108052/arrow-down-filled-triangle */}
+          <path
+            fill="#f6ab6c"
+            stroke="#f6ab6c"
+            d="M0.561,20.971l45.951,57.605c0.76,0.951,2.367,0.951,3.127,0l45.956-57.609c0.547-0.689,0.709-1.716,0.414-2.61
+		c-0.061-0.187-0.129-0.33-0.186-0.437c-0.351-0.65-1.025-1.056-1.765-1.056H2.093c-0.736,0-1.414,0.405-1.762,1.056
+		c-0.059,0.109-0.127,0.253-0.184,0.426C-0.15,19.251,0.011,20.28,0.561,20.971z"
+          />
         </marker>
       </svg>
 
@@ -171,26 +157,7 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
         elementsSelectable={true}
         connectionMode={ConnectionMode.Loose}
         onlyRenderVisibleElements={true}
-        // context menu events
-        // onPaneContextMenu={showBoardContextMenu}
-        // onNodeContextMenu={showNodeContextMenu}
-        // onEdgeContextMenu={showEdgeContextMenu}
-        // // edge events
-        // onConnect={onEdgeConnect}
-        // onEdgeClick={onEdgeClick}
-        // onEdgeMouseEnter={onEdgeMouseEnter}
-        // onEdgeMouseLeave={onEdgeMouseLeave}
-        // onEdgesChange={onCustomEdgesChangeHandler}
-        // // node events
-        // onNodeClick={onNodeClick}
         onNodesChange={onCustomNodesChangeHandler}
-        // onNodeMouseEnter={onNodeMouseEnter}
-        // onNodeMouseLeave={onNodeMouseLeave}
-        // onSelectionChange={onNodeSelectionChange}
-        // onNodeDragStop={onNodeDragStop}
-        // // board events
-        // onMoveStart={onBoardMoveStart}
-        // // onInit={onBoardInit}
       >
         <MiniMap zoomable pannable className="minimap" />
 

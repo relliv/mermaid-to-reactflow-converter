@@ -28,10 +28,11 @@ export default memo(({ id, data, isConnectable }: any) => {
       />
 
       <Tooltip
-        delayShow={400}
+        delayShow={1000}
+        variant="info"
         id="double-click-to-edit"
         place={
-          data.layoutDirection === MermaidChartDirection.TD ? "bottom" : "right"
+          data.layoutDirection === MermaidChartDirection.LR ? "bottom" : "right"
         }
         content="Double Click to Edit"
       />
@@ -40,6 +41,7 @@ export default memo(({ id, data, isConnectable }: any) => {
         ref={contentEditableLabelRef}
         contentEditable="false"
         onBlur={onLabelBlur}
+        suppressContentEditableWarning={true}
         className="custom-node-label"
       >
         <Markdown>{data.label}</Markdown>
