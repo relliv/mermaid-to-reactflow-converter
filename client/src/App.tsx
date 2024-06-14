@@ -51,7 +51,7 @@ function App() {
         (mermaidNode: IMermaidNodeDefinition, index: number) => ({
           id: mermaidNode.id,
           position: { x: index * 200, y: index * 200 },
-          // type: "customNodeType",
+          type: "customNodeType",
           data: {
             label: mermaidNode.text,
             raw: mermaidNode,

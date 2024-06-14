@@ -1,16 +1,46 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { memo } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import React from "react";
+import { memo, useCallback } from "react";
 import { Handle, Position } from "reactflow";
 
-export const RFCustomNode = memo(({ data }: any) => {
-  return (
-    <>
-      <span>{data.label}</span>
+const handleStyle = { left: 10 };
 
-      <Handle type="source" position={Position.Top} id="a" />
-      <Handle type="source" position={Position.Right} id="b" />
-      <Handle type="source" position={Position.Bottom} id="c" />
-      <Handle type="source" position={Position.Left} id="d" />
-    </>
+export default memo(({ id, data, isConnectable }: any) => {
+  const onChange = useCallback((evt: any) => {
+    console.log(evt.target.value);
+  }, []);
+
+  return (
+    <div className="custom-node">
+      <Handle
+        id={id}
+        type="target"
+        position={Position.Top}
+        isConnectable={isConnectable}
+      />
+      <div>
+        <div
+          contentEditable="true"
+          id="text"
+          onChange={onChange}
+          className="nodrag"
+        >
+          {data.label}
+        </div>
+      </div>
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        id="a"
+        isConnectable={isConnectable}
+      />
+      <Handle
+        id={id}
+        type="source"
+        position={Position.Bottom}
+        isConnectable={isConnectable}
+      />
+    </div>
   );
 });

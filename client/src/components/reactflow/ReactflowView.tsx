@@ -25,12 +25,13 @@ import ReactFlow, {
   Position,
 } from "reactflow";
 import RFCustomEdge from "./RFCustomEdge";
+import RFCustomNode from "./RFCustomNode";
 import dagre from "dagre";
 
 import { MermaidChartDirection } from "../../shared/models/mermaid.model";
 
 const nodeTypes = {
-    customNodeType: RFCustomEdge,
+    customNodeType: RFCustomNode,
   },
   edgeTypes = {
     customEdgeType: RFCustomEdge,
