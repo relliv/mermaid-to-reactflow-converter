@@ -81,6 +81,8 @@ function App() {
       <div className="editor-layout">
         {/* Mermaid Side */}
         <div className="mermaid-editor">
+          <h1>Mermaid Editor</h1>
+
           {/* Monaco Editor Container */}
           <div className="monaco-editor-container">
             <MonacoEditorView
@@ -109,6 +111,8 @@ function App() {
 
         {/* Reactflow Side */}
         <div className="react-flow-editor">
+          <h1>Reactflow Editor</h1>
+
           <ReactflowView
             nodes={reactflowNodes}
             edges={reactflowEdges}
