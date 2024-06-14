@@ -41,6 +41,7 @@ export default memo(({ id, data, isConnectable }: any) => {
         ref={contentEditableLabelRef}
         contentEditable="false"
         onBlur={onLabelBlur}
+        suppressContentEditableWarning={true}
         className="custom-node-label"
       >
         <Markdown>{data.label}</Markdown>

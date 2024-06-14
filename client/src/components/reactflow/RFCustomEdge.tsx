@@ -61,6 +61,7 @@ const RFCustomEdge: FC<EdgeProps> = ({
             display: data.label.length > 0 ? "block" : "none",
           }}
           onBlur={() => onLabelBlur()}
+          suppressContentEditableWarning={true}
           className="custom-edge-label nodrag nopan"
         >
           {data.label}
