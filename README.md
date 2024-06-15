@@ -19,3 +19,4 @@ This simple application converts mermaid flow diagrams to reactflow diagrams.
   - [Mermaid to JSON Example](https://github.com/relliv/mermaidjs-to-json-example): An example of converting mermaid diagrams to JSON (*only typescript*).
 - [ReactFlow](https://reactflow.dev/): A library for building node-based graphs.
 - [Monaco Editor](https://microsoft.github.io/monaco-editor/): A browser-based code editor.
+  - [Monaco Editor Theme Loading](https://github.com/relliv/monaco-editor-textmate-theme-loading-example): An example of loading textmate themes for the Monaco Editor.
