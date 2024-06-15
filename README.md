@@ -5,12 +5,13 @@ This simple application converts mermaid flow diagrams to reactflow diagrams.
 > [!WARNING]  
 > This is a work in progress and is not yet ready for production use.
 
+## [⚡️ Play on StackBlitz](https://stackblitz.com/~/github.com/relliv/mermaid-to-reactflow-converter)
 
-## Preview
+## 🎬 Preview
 
 ![Preview](./src/assets/images/mermaid-to-reactflow-converter-preview.gif)
 
-## Resources
+## 📚 Resources
 
 - [Mermaid](https://mermaid.js.org/): Markdown-like script language for generating charts from text via javascript.
   - [Mermaid Live Editor](https://mermaid-js.github.io/mermaid-live-editor/): An online editor for creating mermaid diagrams.
