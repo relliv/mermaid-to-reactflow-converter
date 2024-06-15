@@ -8,7 +8,7 @@ This simple application converts mermaid flow diagrams to reactflow diagrams.
 
 ## Preview
 
-![Preview](./client/src/assets/images/mermaid-to-reactflow-converter-preview.gif)
+![Preview](./src/assets/images/mermaid-to-reactflow-converter-preview.gif)
 
 ## Resources
 
