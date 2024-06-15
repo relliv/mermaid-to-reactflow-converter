@@ -1,6 +1,6 @@
 {
   "installDependencies": true,
-  "startCommand": "npm run serve",
+  "startCommand": "npm run dev",
   "env": {
     "NODE_ENV": "development"
   }
