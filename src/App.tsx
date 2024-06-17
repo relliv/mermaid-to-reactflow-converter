@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import "./App.scss";
 import MermaidWrapper from "./components/mermaid/MermaidView";
@@ -29,7 +27,7 @@ function App() {
 
   function handleMermaidDefinitionChange(event: MermaidParserEvent) {
     const reactflowEdges: Edge[] = event.edges.map(
-        (mermaidEdge: IMermaidEdgeDefinition, index: number) =>
+        (mermaidEdge: IMermaidEdgeDefinition) =>
           ({
             id: uuidv4(),
             source: mermaidEdge.start,
@@ -63,12 +61,6 @@ function App() {
           },
         })
       );
-
-    console.log(
-      reactflowNodes,
-      reactflowNodes.map((item: any) => item.data.raw.text),
-      event
-    );
 
     setReactflowNodes(reactflowNodes);
     setReactflowEdges(reactflowEdges);

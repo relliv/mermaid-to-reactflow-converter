@@ -109,19 +109,13 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
     // #region Register Grammars
 
     const registry = new Registry({
-      getGrammarDefinition: async (
-        scopeName: string
-      ): Promise<IGrammarDefinition> => {
-        console.log("scopeName", scopeName);
-
+      getGrammarDefinition: async (): Promise<IGrammarDefinition> => {
         const res: IGrammarDefinition = {
           format: "json",
           content: await (
             await fetch("/assets/textmate/grammars/mermaid.json")
           ).text(),
         };
-
-        console.log("grammarContent", res);
 
         return res;
       },
@@ -132,8 +126,6 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
     monaco.languages.register({ id: "mermaid" });
 
     grammars.set("mermaid", "source.mermaid");
-
-    console.log(grammars);
 
     // #endregion
 

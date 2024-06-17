@@ -79,19 +79,6 @@ const MermaidView: FC<MermaidViewProps> = ({
       edges: mermaidEdges,
       direction: parser.getDirection(),
     });
-
-    // TODO: remogve unused variables
-    const outputParser = {
-      title: parser.getDiagramTitle(),
-      accTitle: parser.getAccTitle(),
-      edges: parser.getEdges(),
-      vertices: parser.getVertices(),
-      tooltip: parser.getTooltip(),
-      direction: parser.getDirection(),
-      classes: parser.getClasses(),
-      subGraphs: parser.getSubGraphs(),
-    };
-    console.log("------> outputParser", outputParser);
   }
 
   return (
