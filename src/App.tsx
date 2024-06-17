@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.scss";
-import MermaidWrapper from "./components/mermaid/MermaidView";
+import MermaidView from "./components/mermaid/MermaidView";
 import {
   IMermaidEdgeDefinition,
   IMermaidNodeDefinition,
@@ -107,7 +107,7 @@ function App() {
 
               {/* Preview Container */}
               <div className="preview-container">
-                <MermaidWrapper
+                <MermaidView
                   graphDefinition={graphDefinition}
                   onMermaidDefinitionChange={(event: MermaidParserEvent) =>
                     handleMermaidDefinitionChange(event)
