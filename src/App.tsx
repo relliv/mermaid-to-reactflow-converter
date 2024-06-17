@@ -8,7 +8,7 @@ import {
   IMermaidNodeDefinition,
   MermaidChartDirection,
 } from "./shared/models/mermaid.model";
-import { Node, Edge, MarkerType } from "reactflow";
+import { Node, Edge } from "reactflow";
 import ReactflowView from "./components/reactflow/ReactflowView";
 import { v4 as uuidv4 } from "uuid";
 import { MermaidParserEvent } from "./shared/models/mermaid.model";
@@ -91,13 +91,6 @@ function App() {
             />
           </div>
 
-          {/* Input Container */}
-          {/* <div className="input-container">
-            <textarea
-              value={graphDefinition}
-              onChange={(e) => setGraphDefinition(e.target.value)}
-            ></textarea>
-          </div> */}
           {/* Preview Container */}
           <div className="preview-container">
             <MermaidWrapper
