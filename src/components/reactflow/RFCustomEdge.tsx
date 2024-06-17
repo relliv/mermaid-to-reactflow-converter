@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useRef } from "react";
+import { FC, MutableRefObject, useRef } from "react";
 import {
   EdgeProps,
   getBezierPath,
@@ -29,15 +28,20 @@ const RFCustomEdge: FC<EdgeProps> = ({
     targetPosition,
   });
 
-  const contentEditableLabelRef: any = useRef<HTMLDivElement>();
+  const contentEditableLabelRef: MutableRefObject<HTMLDivElement | undefined> =
+    useRef<HTMLDivElement>();
 
   function onLabelClick(): void {
-    contentEditableLabelRef.current.contentEditable = "true";
-    contentEditableLabelRef.current.focus();
+    if (contentEditableLabelRef.current) {
+      contentEditableLabelRef.current.contentEditable = "true";
+      contentEditableLabelRef.current.focus();
+    }
   }
 
   function onLabelBlur(): void {
-    contentEditableLabelRef.current.contentEditable = "false";
+    if (contentEditableLabelRef.current) {
+      contentEditableLabelRef.current.contentEditable = "false";
+    }
   }
 
   return (

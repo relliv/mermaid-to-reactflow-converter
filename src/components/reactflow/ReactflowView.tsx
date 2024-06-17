@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 import ReactFlow, {
   useNodesState,
@@ -27,7 +26,7 @@ const nodeTypes = {
     customEdgeType: RFCustomEdge,
   };
 
-// TODO: replace with dnynamic calculation
+// TODO: replace with dynamic calculation
 const nodeWidth = 250;
 const nodeHeight = 200;
 
@@ -50,6 +49,7 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
     setEdges(props.edges || []);
 
     updateGraphLayout(props.nodes, props.edges, props.direction);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.nodes, props.edges, props.direction]);
 
   const dagreGraph = new dagre.graphlib.Graph();
@@ -174,10 +174,10 @@ const ReactflowView = (props: ReactflowViewProps): JSX.Element => {
 /**
  * Creates an ErdBuilder component wrapped with ReactFlowProvider, passing down the provided props.
  *
- * @param {any} props - the props to be passed down to the ErdBuilder component
+ * @param {ReactflowViewProps} props - the props to be passed down to the ErdBuilder component
  * @return {JSX.Element} the wrapped ErdBuilder component
  */
-const ReactflowViewWithProvider = (props: any): JSX.Element => {
+const ReactflowViewWithProvider = (props: ReactflowViewProps): JSX.Element => {
   return (
     <ReactFlowProvider>
       <ReactflowView {...props} />

@@ -1,21 +1,33 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-refresh/only-export-components */
-import { memo, useRef } from "react";
+import { MutableRefObject, memo, useRef } from "react";
 import { Handle, Position } from "reactflow";
 import { Tooltip } from "react-tooltip";
 import Markdown from "react-markdown";
 import { MermaidChartDirection } from "../../shared/models/mermaid.model";
 
-export default memo(({ id, data, isConnectable }: any) => {
-  const contentEditableLabelRef: any = useRef<HTMLDivElement>();
+export interface IRFCustomNodeProps {
+  id: string;
+  data: {
+    label: string;
+    layoutDirection: MermaidChartDirection;
+  };
+  isConnectable: boolean;
+}
+
+const RFCustomNode = memo(({ id, data, isConnectable }: IRFCustomNodeProps) => {
+  const contentEditableLabelRef: MutableRefObject<HTMLDivElement | undefined> =
+    useRef<HTMLDivElement>();
 
   function onLabelDoubleClick(): void {
-    contentEditableLabelRef.current.contentEditable = "true";
-    contentEditableLabelRef.current.focus();
+    if (contentEditableLabelRef.current) {
+      contentEditableLabelRef.current.contentEditable = "true";
+      contentEditableLabelRef.current.focus();
+    }
   }
 
   function onLabelBlur(): void {
-    contentEditableLabelRef.current.contentEditable = "false";
+    if (contentEditableLabelRef.current) {
+      contentEditableLabelRef.current.contentEditable = "false";
+    }
   }
 
   return (
@@ -38,7 +50,9 @@ export default memo(({ id, data, isConnectable }: any) => {
       />
       <div
         data-tooltip-id="double-click-to-edit"
-        ref={contentEditableLabelRef}
+        ref={
+          contentEditableLabelRef as unknown as MutableRefObject<HTMLDivElement>
+        }
         contentEditable="false"
         onBlur={onLabelBlur}
         suppressContentEditableWarning={true}
@@ -63,3 +77,5 @@ export default memo(({ id, data, isConnectable }: any) => {
     </div>
   );
 });
+
+export default RFCustomNode;
