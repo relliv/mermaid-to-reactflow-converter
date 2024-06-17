@@ -85,7 +85,10 @@ function App() {
     <>
       {/* General Editor Layout */}
       <div className="editor-layout">
-        <Allotment onChange={() => resetEditorLayout()}>
+        <Allotment
+          onChange={() => resetEditorLayout()}
+          onDragEnd={() => resetEditorLayout()}
+        >
           {/* Mermaid Side */}
           <Allotment.Pane>
             <div className="mermaid-editor">
