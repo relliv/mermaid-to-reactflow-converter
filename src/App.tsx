@@ -11,6 +11,8 @@ import ReactflowView from "./components/reactflow/ReactflowView";
 import { v4 as uuidv4 } from "uuid";
 import { MermaidParserEvent } from "./shared/models/mermaid.model";
 import MonacoEditorView from "./components/monaco/MonacoView";
+import { Allotment } from "allotment";
+import { editor } from "monaco-editor";
 
 function App() {
   const [graphDefinition, setGraphDefinition] = useState(`flowchart TD
@@ -24,6 +26,8 @@ function App() {
   const [reactflowEdges, setReactflowEdges] = useState<Edge[]>([]);
   const [mermaidChartDirection, setMermaidChartDirection] =
     useState<MermaidChartDirection>(MermaidChartDirection.TD);
+  const [editorInstance, setEditorInstance] =
+    useState<editor.IStandaloneCodeEditor>();
 
   function handleMermaidDefinitionChange(event: MermaidParserEvent) {
     const reactflowEdges: Edge[] = event.edges.map(
@@ -67,43 +71,62 @@ function App() {
     setMermaidChartDirection(event.direction);
   }
 
+  function resetEditorLayout(): void {
+    editorInstance?.layout();
+  }
+
+  function onEditorInit(editor: editor.IStandaloneCodeEditor) {
+    setEditorInstance(editor);
+
+    resetEditorLayout();
+  }
+
   return (
     <>
       {/* General Editor Layout */}
       <div className="editor-layout">
-        {/* Mermaid Side */}
-        <div className="mermaid-editor">
-          <h1>Mermaid Editor</h1>
+        <Allotment onChange={() => resetEditorLayout()}>
+          {/* Mermaid Side */}
+          <Allotment.Pane>
+            <div className="mermaid-editor">
+              <h1>Mermaid Editor</h1>
 
-          {/* Monaco Editor Container */}
-          <div className="monaco-editor-container">
-            <MonacoEditorView
-              code={graphDefinition}
-              onCodeChange={(event: string) => setGraphDefinition(event)}
-            />
-          </div>
+              {/* Monaco Editor Container */}
+              <div className="monaco-editor-container">
+                <MonacoEditorView
+                  code={graphDefinition}
+                  onCodeChange={(event: string) => setGraphDefinition(event)}
+                  onInit={(editor: editor.IStandaloneCodeEditor) =>
+                    onEditorInit(editor)
+                  }
+                />
+              </div>
 
-          {/* Preview Container */}
-          <div className="preview-container">
-            <MermaidWrapper
-              graphDefinition={graphDefinition}
-              onMermaidDefinitionChange={(event: MermaidParserEvent) =>
-                handleMermaidDefinitionChange(event)
-              }
-            />
-          </div>
-        </div>
+              {/* Preview Container */}
+              <div className="preview-container">
+                <MermaidWrapper
+                  graphDefinition={graphDefinition}
+                  onMermaidDefinitionChange={(event: MermaidParserEvent) =>
+                    handleMermaidDefinitionChange(event)
+                  }
+                />
+              </div>
+            </div>
+          </Allotment.Pane>
 
-        {/* Reactflow Side */}
-        <div className="react-flow-editor">
-          <h1>Reactflow Editor</h1>
+          {/* Reactflow Side */}
+          <Allotment.Pane>
+            <div className="react-flow-editor">
+              <h1>Reactflow Editor</h1>
 
-          <ReactflowView
-            nodes={reactflowNodes}
-            edges={reactflowEdges}
-            direction={mermaidChartDirection}
-          ></ReactflowView>
-        </div>
+              <ReactflowView
+                nodes={reactflowNodes}
+                edges={reactflowEdges}
+                direction={mermaidChartDirection}
+              ></ReactflowView>
+            </div>
+          </Allotment.Pane>
+        </Allotment>
       </div>
     </>
   );

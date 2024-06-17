@@ -10,6 +10,7 @@ import { IVsCodeThemeOption } from "../../shared/models/vs-code-theme.model";
 export interface IMonacoEditorViewProps {
   code: string;
   onCodeChange: (code: string) => void;
+  onInit: (editor: editor.IStandaloneCodeEditor) => void;
 }
 
 /**
@@ -20,6 +21,7 @@ export interface IMonacoEditorViewProps {
 const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
   code,
   onCodeChange,
+  onInit,
 }) => {
   const [vsCodeThemes] = useState<IVsCodeThemeOption[]>([
     {
@@ -131,15 +133,18 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
 
     // #region Init Editor
 
-    const editor = monaco.editor.create(editorElement!, {
-      value: code,
-      language: "mermaid",
-      theme: "vs",
-      inDiffEditor: false,
-      minimap: {
-        enabled: false,
-      },
-    });
+    const editorInstance: editor.IStandaloneCodeEditor = monaco.editor.create(
+      editorElement!,
+      {
+        value: code,
+        language: "mermaid",
+        theme: "vs",
+        inDiffEditor: false,
+        minimap: {
+          enabled: false,
+        },
+      }
+    );
 
     const installedEditors =
       editorElement?.getElementsByClassName("monaco-editor");
@@ -159,12 +164,14 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
 
     // #region Wire Grammars
 
-    await wireTmGrammars(monaco, registry, grammars, editor);
+    await wireTmGrammars(monaco, registry, grammars, editorInstance);
 
     // #endregion
 
     // set on code change event
-    editor.onDidChangeModelContent(() => onCodeChange(editor.getValue()));
+    editorInstance.onDidChangeModelContent(() =>
+      onCodeChange(editorInstance.getValue())
+    );
 
     // set initial theme
     loadTheme(
@@ -172,6 +179,10 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
         (theme: IVsCodeThemeOption) => theme.name === "one-light"
       )!
     );
+
+    editorInstance?.layout();
+
+    onInit(editorInstance);
   }
 
   /**

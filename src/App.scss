@@ -4,7 +4,6 @@
   height: 100vh;
 
   .mermaid-editor {
-    width: 50%;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -26,6 +25,10 @@
 
       #editor {
         height: 100%;
+
+        .monaco-editor {
+          height: 300px !important;
+        }
       }
     }
 
@@ -41,7 +44,6 @@
 
   .react-flow-editor {
     height: 100%;
-    width: 50%;
 
     .custom-edge-label {
       position: absolute;
