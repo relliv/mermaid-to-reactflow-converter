@@ -50,9 +50,7 @@ const RFCustomNode = memo(({ id, data, isConnectable }: IRFCustomNodeProps) => {
       />
       <div
         data-tooltip-id="double-click-to-edit"
-        ref={
-          contentEditableLabelRef as unknown as MutableRefObject<HTMLDivElement>
-        }
+        ref={contentEditableLabelRef as MutableRefObject<HTMLDivElement>}
         contentEditable="false"
         onBlur={onLabelBlur}
         suppressContentEditableWarning={true}

@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, MutableRefObject, useEffect, useRef, useState } from "react";
 import mermaid from "mermaid";
 import { ParserDefinition } from "mermaid/dist/diagram-api/types.js";
 import {
@@ -20,7 +19,8 @@ const MermaidView: FC<MermaidViewProps> = ({
   const [currentGraphDefinition, setCrrentGraphDefinition] = useState<
     string | null
   >(null);
-  const mermaidChartElementRef: any = useRef<HTMLDivElement>();
+  const mermaidChartElementRef: MutableRefObject<HTMLDivElement | undefined> =
+    useRef<HTMLDivElement>();
 
   useEffect(() => {
     setTimeout(() => {
@@ -33,6 +33,7 @@ const MermaidView: FC<MermaidViewProps> = ({
         setCrrentGraphDefinition(graphDefinition);
       }
     }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentGraphDefinition, graphDefinition]);
 
   /**
@@ -66,6 +67,8 @@ const MermaidView: FC<MermaidViewProps> = ({
     const diagram = await mermaid.mermaidAPI.getDiagramFromText(
       graphDefinitionText
     );
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const parser = (diagram.getParser() as ParserDefinition as any).yy;
 
     const mermaidEdges = (parser.getEdges() as IMermaidEdgeDefinition[]) || [],
@@ -97,7 +100,7 @@ const MermaidView: FC<MermaidViewProps> = ({
         <div
           className="mermaid"
           id="mermaidChartContainer"
-          ref={mermaidChartElementRef}
+          ref={mermaidChartElementRef as MutableRefObject<HTMLDivElement>}
         >
           {graphDefinition}
         </div>
