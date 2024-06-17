@@ -90,7 +90,7 @@ function App() {
           onDragEnd={() => resetEditorLayout()}
         >
           {/* Mermaid Side */}
-          <Allotment.Pane>
+          <Allotment.Pane minSize={500}>
             <div className="mermaid-editor">
               <h1>Mermaid Editor</h1>
 
@@ -118,7 +118,7 @@ function App() {
           </Allotment.Pane>
 
           {/* Reactflow Side */}
-          <Allotment.Pane>
+          <Allotment.Pane minSize={500}>
             <div className="react-flow-editor">
               <h1>Reactflow Editor</h1>
 
