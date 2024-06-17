@@ -136,7 +136,7 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
     const editor = monaco.editor.create(editorElement!, {
       value: code,
       language: "mermaid",
-      theme: "vs-dark",
+      theme: "vs",
       inDiffEditor: false,
       minimap: {
         enabled: false,
@@ -162,6 +162,9 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
     editor.onDidChangeModelContent(() => {
       onCodeChange(editor.getValue());
     });
+
+    // set initial theme
+    loadTheme(vsCodeThemes.find((theme) => theme.name === "one-light") as any);
   }
 
   (async () => {
