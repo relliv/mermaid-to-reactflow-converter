@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { FC, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import * as monaco from "monaco-editor";
 import { editor } from "monaco-editor";
 import { loadWASM } from "onigasm";
-import { Registry } from "monaco-textmate";
+import { IGrammarDefinition, Registry } from "monaco-textmate";
 import { wireTmGrammars } from "monaco-editor-textmate";
 import { IVSCodeTheme, convertTheme } from "@estruyf/vscode-theme-converter";
+import { IVsCodeThemeOption } from "../../shared/models/vs-code-theme.model";
 
 export interface IMonacoEditorViewProps {
   code: string;
@@ -21,7 +21,7 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
   code,
   onCodeChange,
 }) => {
-  const [vsCodeThemes] = useState<any[]>([
+  const [vsCodeThemes] = useState<IVsCodeThemeOption[]>([
     {
       displayName: "Material Theme Ocean",
       name: "material-theme-ocean",
@@ -47,9 +47,9 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
   /**
    * On theme select change event
    */
-  function onThemeChange(event: any) {
+  function onThemeChange(event: ChangeEvent<HTMLSelectElement>) {
     const themeName = event.target.value,
-      selectedTheme = vsCodeThemes.find((theme) => theme.name === themeName);
+      selectedTheme = vsCodeThemes.find((theme) => theme.name === themeName)!;
 
     loadTheme(selectedTheme);
   }
@@ -57,7 +57,7 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
   /**
    * Load selected theme into monoaco editor
    */
-  async function loadTheme(theme: any) {
+  async function loadTheme(theme: IVsCodeThemeOption) {
     await fetch(`/assets/vsc-themes/${theme.name}.json`).then(
       async (response: Response) => {
         if (response.status === 200) {
@@ -76,6 +76,10 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
     );
   }
 
+  /**
+   * Load onigasm wasm file
+   * Required for monaco editor to work with textmate grammars
+   */
   async function loadWasm(): Promise<void> {
     const onigasmResponse = await fetch(
       "https://cdn.jsdelivr.net/npm/onigasm@latest/lib/onigasm.wasm" // use for web (to prevent CORS etc.)
@@ -86,7 +90,7 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
       onigasmResponse.status !== 200 ||
       onigasmResponse.headers.get("content-type") !== "application/wasm"
     ) {
-      return null;
+      return;
     }
 
     const wasmContent = await onigasmResponse.arrayBuffer();
@@ -105,10 +109,12 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
     // #region Register Grammars
 
     const registry = new Registry({
-      getGrammarDefinition: async (scopeName: string): Promise<any> => {
+      getGrammarDefinition: async (
+        scopeName: string
+      ): Promise<IGrammarDefinition> => {
         console.log("scopeName", scopeName);
 
-        const res: any = {
+        const res: IGrammarDefinition = {
           format: "json",
           content: await (
             await fetch("/assets/textmate/grammars/mermaid.json")
@@ -146,9 +152,15 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
     const installedEditors =
       editorElement?.getElementsByClassName("monaco-editor");
 
+    // remove duplicate editors
     if (installedEditors && installedEditors.length > 1) {
-      // remove second editor instance
-      editorElement?.removeChild(installedEditors[1]);
+      for (let i = 1; i < installedEditors.length; i++) {
+        if (i === 0) {
+          continue;
+        }
+
+        editorElement?.removeChild(installedEditors[i]);
+      }
     }
 
     // #endregion
@@ -159,14 +171,20 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
 
     // #endregion
 
-    editor.onDidChangeModelContent(() => {
-      onCodeChange(editor.getValue());
-    });
+    // set on code change event
+    editor.onDidChangeModelContent(() => onCodeChange(editor.getValue()));
 
     // set initial theme
-    loadTheme(vsCodeThemes.find((theme) => theme.name === "one-light") as any);
+    loadTheme(
+      vsCodeThemes.find(
+        (theme: IVsCodeThemeOption) => theme.name === "one-light"
+      )!
+    );
   }
 
+  /**
+   * Load onigasm wasm and init monaco editor
+   */
   (async () => {
     setTimeout(async () => {
       await loadWasm();
@@ -176,8 +194,13 @@ const MonacoEditorView: FC<IMonacoEditorViewProps> = ({
 
   return (
     <>
-      <select id="theme-select" onChange={(event) => onThemeChange(event)}>
-        {vsCodeThemes.map((vsCodeTheme: any) => (
+      <select
+        id="theme-select"
+        onChange={(event: ChangeEvent<HTMLSelectElement>) =>
+          onThemeChange(event)
+        }
+      >
+        {vsCodeThemes.map((vsCodeTheme: IVsCodeThemeOption) => (
           <option key={vsCodeTheme.name} value={vsCodeTheme.name}>
             {vsCodeTheme.displayName}
           </option>
