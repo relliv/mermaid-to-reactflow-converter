@@ -1,0 +1,16 @@
+{
+  "autorun": true,
+  "autorun_delay": 2000,
+  "auto_kill": true,
+  "terminals": [
+    {
+      "name": "Dev Server Terminal",
+      "description": "Running vite development server",
+      "focus": false,
+      "execute": true,
+      "recycle": true,
+      "commands": ["npm run dev"],
+      "color": "terminal.ansiGreen"
+    }
+  ]
+}
