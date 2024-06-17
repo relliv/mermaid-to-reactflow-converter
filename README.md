@@ -7,6 +7,26 @@ This simple application converts mermaid flow diagrams to reactflow diagrams.
 
 ## [⚡️ Play on StackBlitz](https://stackblitz.com/~/github.com/relliv/mermaid-to-reactflow-converter)
 
+## 🚀 Quick Start
+
+1. Install dependencies:
+```bash
+pnpm i
+
+# or
+
+npm i
+```
+
+2. Start the development server:
+```bash
+pnpm dev
+
+# or
+
+npm run dev
+```
+
 ## 🎬 Preview
 
 ![Preview](./src/assets/images/mermaid-to-reactflow-converter-preview.gif)
