@@ -31,6 +31,13 @@ npm run dev
 
 ![Preview](./src/assets/images/mermaid-to-reactflow-converter-preview.gif)
 
+## 📝 Todo
+
+- [ ] Two way binding for mermaid textarea and reactflow graph.
+- [ ] Shape loading and selection.
+- [ ] Shape resizing.
+- [ ] Shape deletion.
+
 ## 📚 Resources
 
 - [Mermaid](https://mermaid.js.org/): Markdown-like script language for generating charts from text via javascript.
